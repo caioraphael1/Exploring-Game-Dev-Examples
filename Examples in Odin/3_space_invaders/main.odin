@@ -1,3 +1,7 @@
+/* 
+odin run .
+*/
+
 package main
 
 import rl "vendor:raylib"

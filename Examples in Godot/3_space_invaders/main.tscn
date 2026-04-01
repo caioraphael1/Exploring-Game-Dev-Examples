@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bgi21s1hlbsy8"]
+
+[ext_resource type="Script" uid="uid://d12rg8fqs06iq" path="res://enemies_spawner.gd" id="1_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://cuavm5dyqjhat" path="res://assets/c2.png" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://da4v8uhhg5v3h" path="res://objects/enemy.tscn" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://cxqeo3tdxnyw5" path="res://player.gd" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bo58kjwpft7bv" path="res://objects/projectile.tscn" id="4_1bvp3"]
+
+[node name="game" type="Node2D" unique_id=1159456615]
+
+[node name="bg" type="ColorRect" parent="." unique_id=1987406566]
+offset_left = -8.0
+offset_top = -14.0
+offset_right = 809.0
+offset_bottom = 612.0
+color = Color(0, 0, 0, 1)
+
+[node name="tutorial" type="Label" parent="." unique_id=1191815685]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 425.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 20
+text = "Space Invaders: WASD move | SPACE shoot"
+
+[node name="enemies_spawner" type="Node2D" parent="." unique_id=106580120]
+script = ExtResource("1_1bvp3")
+enemy = ExtResource("2_lquwl")
+
+[node name="enemies_destroyed" type="Label" parent="enemies_spawner" unique_id=436948618]
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 425.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Enemies destroyed: X"
+
+[node name="player" type="Sprite2D" parent="." unique_id=138295305]
+position = Vector2(395, 512)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_h2yge")
+script = ExtResource("3_h2yge")
+projectile = ExtResource("4_1bvp3")
