@@ -1,15 +1,15 @@
-/* 
-clang main.c -o main.exe -L../raylib/lib -lraylib -lopengl32 -lgdi32 -lwinmm
+/*
+clang++ main.cpp -o main.exe -L../raylib/lib -lraylib -lopengl32 -lgdi32 -lwinmm
 */
 
 #include "../raylib/include/raylib.h"
 
 
-int main(void) {
-    const int SCREEN_WIDTH  = 800;
-    const int SCREEN_HEIGHT = 450;
+int main() { // <- this is the only difference from C
+    constexpr int SCREEN_WIDTH  = 800;
+    constexpr int SCREEN_HEIGHT = 450;
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib in C | 1_moving_ball");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib in C++ | 1_moving_ball");
     SetTargetFPS(60);
 
     // Initialize ball
@@ -28,7 +28,7 @@ int main(void) {
 
         DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
         DrawCircleV(ball_position, 50.0, MAROON);
-        
+
         EndDrawing();
     }
 

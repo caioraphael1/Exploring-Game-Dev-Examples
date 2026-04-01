@@ -62,7 +62,7 @@ int main(void) {
         }
 
         // Update bullets
-        for (int i = 0; i < MAX_BULLETS; i++) {
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
             if (bullets[i].active) {
                 bullets[i].position.x += bullets[i].velocity.x;
                 bullets[i].position.y += bullets[i].velocity.y;
@@ -75,7 +75,7 @@ int main(void) {
 
         // Update enemies
         int active_enemies = 0;
-        for (int i = 0; i < enemies_count; i++) {
+        for (int i = 0; i < enemies_count; i += 1) {
             if (enemies[i].active) {
                 enemies[i].position.y += 0.5f;
                 active_enemies += 1;
@@ -88,10 +88,10 @@ int main(void) {
         }
 
         // Check Collisions
-        for (int i = 0; i < MAX_BULLETS; i++) {
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
             if (!bullets[i].active) continue;
 
-            for (int j = 0; j < enemies_count; j++) {
+            for (int j = 0; j < enemies_count; j += 1) {
                 if (!enemies[j].active) continue;
 
                 float d = Vector2Distance(bullets[i].position, enemies[j].position);
@@ -110,12 +110,12 @@ int main(void) {
 
         DrawCircleV(player.position, player.radius, BLUE);
 
-        for (int i = 0; i < MAX_BULLETS; i++) {
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
             if (bullets[i].active) {
                 DrawCircleV(bullets[i].position, bullets[i].radius, YELLOW);
             }
         }
-        for (int i = 0; i < enemies_count; i++) {
+        for (int i = 0; i < enemies_count; i += 1) {
             if (enemies[i].active) {
                 DrawCircleV(enemies[i].position, enemies[i].radius, enemies[i].color);
             }
@@ -138,7 +138,7 @@ int main(void) {
 
 
 void spawn_bullet(Bullet bullets[], int count, Vector2 pos) {
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i += 1) {
         if (!bullets[i].active) {
             bullets[i].active = true;
             bullets[i].position = pos;
@@ -150,7 +150,7 @@ void spawn_bullet(Bullet bullets[], int count, Vector2 pos) {
 }
 
 void spawn_inactive_enemies(Enemy* enemies, int enemies_count) {
-    for (int i = 0; i < enemies_count; i++) {
+    for (int i = 0; i < enemies_count; i += 1) {
         if (!enemies[i].active) {
             enemies[i].position = (Vector2){
                 GetRandomValue(50, 750),

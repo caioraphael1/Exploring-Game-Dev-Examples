@@ -55,12 +55,10 @@ int main(void) {
 
         // Check collisions
         for (int i = 0; i < MAX_COINS; i++) {
-            if (coins[i].active)
-            {
+            if (coins[i].active) {
                 float dist = Vector2Distance(player.position, coins[i].position);
 
-                if (dist < player.radius + coins[i].radius)
-                {
+                if (dist < player.radius + coins[i].radius) {
                     coins[i].active = false;
                     player.score += 1;
                 }
