@@ -19,7 +19,6 @@ extern DrawText
 extern DrawCircleV
 extern EndDrawing
 extern CloseWindow
-extern PollInputEvents
 
 section .data
     SCREEN_WIDTH  dd 800
@@ -78,13 +77,12 @@ main:
     test eax, eax
     jnz .end
 
-    call PollInputEvents    ; explicitly update input state
-
     ; RIGHT
     mov ecx, KEY_RIGHT
-    call IsKeyDown
-    test eax, eax
+    call IsKeyDown  
+    test al, 1  ; (2026-04-02) Fixed: returns a C bool which is only guaranteed to have a meaningful value in bit 0, and the upper bits of EAX were apparently garbage, making test eax, eax always nonzero (always "true")
     jz .not_key_right_down
+    
     movss xmm0, [ball_pos]
     addss xmm0, dword [speed]
     movss [ball_pos], xmm0
@@ -93,8 +91,9 @@ main:
     ; LEFT
     mov ecx, KEY_LEFT
     call IsKeyDown
-    test eax, eax
+    test al, 1
     jz .not_key_left_down
+
     movss xmm0, [ball_pos]
     subss xmm0, dword [speed]
     movss [ball_pos], xmm0
@@ -103,8 +102,9 @@ main:
     ; UP
     mov ecx, KEY_UP
     call IsKeyDown
-    test eax, eax
+    test al, 1
     jz .not_key_up_down
+
     movss xmm0, [ball_pos+4]
     subss xmm0, dword [speed]
     movss [ball_pos+4], xmm0
@@ -113,8 +113,9 @@ main:
     ; DOWN
     mov ecx, KEY_DOWN
     call IsKeyDown
-    test eax, eax
+    test al, 1
     jz .not_key_down_down
+
     movss xmm0, [ball_pos+4]
     addss xmm0, dword [speed]
     movss [ball_pos+4], xmm0
@@ -133,7 +134,7 @@ main:
     mov r8d, 10
     mov r9d, 20
     mov eax, dword [DARKGRAY]
-    mov qword [rsp+32], rax
+    mov dword [rsp+32], eax
     call DrawText
 
     ; DrawCircleV(Vector2 pos, float radius, Color color)
