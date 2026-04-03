@@ -29,7 +29,7 @@ section .data
     radius        dd 50.0
 
     ; Null-terminated C strings.
-    msg db "move the ball_pos with arrow keys",0
+    msg   db "move the ball_pos with arrow keys",0
     title db "Raylib ASM",0
 
     ; key codes (raylib)
@@ -50,7 +50,7 @@ section .text
     global main ; Entry point exported as main.
 
 main:
-    sub rsp, 56 ; Allocates stack space. Required for: Windows ABI shadow space (32 bytes) + Stack alignment (16-byte aligned) + scractch space (8 bytes)
+    sub rsp, 56 ; Allocates stack space. Required for: Windows ABI shadow space (32 bytes) + Stack alignment (16-byte aligned) + scratch space (8 bytes)
 
     ; InitWindow(int width, int height, const char *title)
     mov ecx, [SCREEN_WIDTH]
@@ -63,12 +63,12 @@ main:
     call SetTargetFPS
 
     ; ball_pos.x = width * 0.5
-    cvtsi2ss xmm0, dword [SCREEN_WIDTH]
+    cvtsi2ss xmm0, [SCREEN_WIDTH]
     mulss xmm0, [half]
     movss [ball_pos], xmm0
 
     ; ball_pos.y = height * 0.5
-    cvtsi2ss xmm0, dword [SCREEN_HEIGHT]
+    cvtsi2ss xmm0, [SCREEN_HEIGHT]
     mulss xmm0, [half]
     movss [ball_pos+4], xmm0
 
@@ -84,7 +84,7 @@ main:
     jz .not_key_right_down
     
     movss xmm0, [ball_pos]
-    addss xmm0, dword [speed]
+    addss xmm0, [speed]
     movss [ball_pos], xmm0
 
 .not_key_right_down:
@@ -95,7 +95,7 @@ main:
     jz .not_key_left_down
 
     movss xmm0, [ball_pos]
-    subss xmm0, dword [speed]
+    subss xmm0, [speed]
     movss [ball_pos], xmm0
 
 .not_key_left_down:
@@ -106,7 +106,7 @@ main:
     jz .not_key_up_down
 
     movss xmm0, [ball_pos+4]
-    subss xmm0, dword [speed]
+    subss xmm0, [speed]
     movss [ball_pos+4], xmm0
 
 .not_key_up_down:
@@ -117,14 +117,14 @@ main:
     jz .not_key_down_down
 
     movss xmm0, [ball_pos+4]
-    addss xmm0, dword [speed]
+    addss xmm0, [speed]
     movss [ball_pos+4], xmm0
 
 .not_key_down_down:
     ; Draw
     call BeginDrawing
 
-    mov eax, dword [RAYWHITE]
+    mov eax, [RAYWHITE]
     mov ecx, eax
     call ClearBackground
 
@@ -133,14 +133,14 @@ main:
     mov edx, 10
     mov r8d, 10
     mov r9d, 20
-    mov eax, dword [DARKGRAY]
-    mov dword [rsp+32], eax
+    mov eax, [DARKGRAY]
+    mov [rsp+32], eax
     call DrawText
 
     ; DrawCircleV(Vector2 pos, float radius, Color color)
     mov rcx, [ball_pos]
     movss xmm1, [radius]
-    mov r8d, dword [MAROON]
+    mov r8d, [MAROON]
     call DrawCircleV
 
     call EndDrawing
